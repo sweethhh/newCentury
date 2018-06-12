@@ -3,7 +3,7 @@
 
     <div class="app-init scroll-box footer-hack">
       <div class="banner">
-        <swiper :list="info.banner"></swiper>
+        <img :src="getTitle.title+info.picture"></img>
         <span class="back iconfont icon-backer" @click="$router.back()"></span>
       </div>
 
@@ -12,19 +12,18 @@
           <img :src="info.hot" @click="$router.openPage(info.hotLink)" alt="">
         </div> -->
         <div class="title-box">
-          <h3>{{ info.title }}</h3>
+          <h3>{{ info.name }}</h3>
           <p style="color:#ff4a00">{{ info.bigContent }}</p>
           <p style="color: #757575"> {{ info.smallContent }} </p>
 
           <div class="press">
-            <span class="money" v-if="info.money">￥{{ info.money }}</span>
-            <span class="no-money" v-if="info.noMoney">￥{{ info.noMoney }}</span>
+            <span class="money">￥{{ info.price }}</span>
             <span class="tips" v-for="target in info.tips">{{ target }}</span>
           </div>
         </div>
 
         <div class="p-box">
-          <img v-for="target in info.pBox" v-lazy="target" alt="">
+          <p>{{ info.content }}</p>
         </div>
 
       </div>
@@ -110,10 +109,13 @@
           this.$router.replace('/error/404')
         }
         // 获取商品详情页
-        axios.get('./static/server/'+id+'.json')
+        axios.get(this.getTitle.title+'/showGoods',{
+            params : {
+              id:id
+            }
+          })
           .then(response=> {
-
-            this.info = response.data;
+            this.info = response.data.data;
             this.loaded = true;
             setTimeout(()=>{
               this.hide = false
@@ -155,7 +157,7 @@
       }
     },
     mounted() {
-      this.shopCar = new ShopCarTool(this.$store)
+      this.shopCar = new ShopCarTool(this.$store);
       this.getData();
     }
   }

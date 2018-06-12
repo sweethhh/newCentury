@@ -17,7 +17,7 @@
           <use xlink:href="#icon-yanzhengma"></use>
         </svg>
         <input type="text" name="imageCode" class="input-controller inputTel" placeholder="图片验证码" v-model=imageCode >
-        <img :src="imageCodeSrc" class="codeImg">
+        <img onclick="this.src='getVerify' +'?id=' +  Math.random()" src="/getVerify" class="codeImg">
       </div>
       <div class="line">
         <svg class="icona iconButtonSmall" aria-hidden="true">
@@ -99,20 +99,24 @@
           // 提示两次输入密码不同
           this.alertMsg("两次输入密码不同");
 
-        }else if(this.code!=this.codeGet){
-          this.alertMsg("手机验证码错误");
         }else{
-          axios.post('/user', {
+          axios.post('/register', {
             userName: this.userName,
             password: this.password,
-            code: this.code
+            code: this.code,
+            name:'用户'
           })
           .then(function (response) {
-            // 注册成功
-            this.alertMsg("注册成功");
-            console.log(response);
-            // 跳转
-            $router.openPage('/login');
+            if(response.data.status==1){
+              // 注册成功
+              this.alertMsg("注册成功");
+              console.log(response);
+              // 跳转
+              $router.openPage('/login');
+            }else{
+              this.alertMsg("注册失败，请稍后重试。");
+            }
+            
           })
           .catch(function (error) {
             this.alertMsg(error);
@@ -131,12 +135,14 @@
           this.alertMsg("图片验证码错误");
         }else{
           // 发送手机号码到后台
-          axios.post('/user', {
-          userName: this.userName
+          axios.get('/getCode', {
+            params:{
+              userName: this.userName
+            }
         })
         .then(function (response) {
           // 存储手机验证码
-          this.codeGet=response.data.codeGet;
+          // this.codeGet=response.data.codeGet;
           console.log(response);
           // 禁用发送按钮60s
           this.buttonDisable=true,
@@ -162,7 +168,7 @@
     },
     mounted(){
       // 获取图片验证码
-        axios.get('')
+        /* axios.get('/')
           .then(response=> {
 
             this.imageCodeSrc = response.data.imageCodeSrc;
@@ -174,7 +180,7 @@
           })
           .catch(error=> {
             this.$router.replace('/error/404')
-          });
+          }); */
     },
     components: {
       headerBack

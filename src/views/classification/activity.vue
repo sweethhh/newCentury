@@ -4,7 +4,7 @@
 
     <div class="padding-box">
       <div class="activityItem">
-        <img :src="image">
+        <img :src="getTitle.title+image">
         <p class="discrib">{{ content }}</p>
         <button class="joinActivity">参加活动</button>
       </div>
@@ -25,20 +25,26 @@
     name: 'activity',
     data(){
       return{
-        image : "http://onm9xh80o.bkt.clouddn.com/banner.PNG",
-        content :"限时促销"
+        image : "",
+        content :""
       }
     },
     mounted(){
-      var activityId = DB.getItem ('activityId');
-      axios.get('/user', {
+      var activityId =  this.$router.currentRoute.params.id;
+      console.log(activityId);
+      axios.get(this.getTitle.title+'/showActivity', {
             params: {
               id: activityId
             }
         })
         .then(response=> {
-         this.image=response.data.data.image;
-         this.content=response.data.data.content;
+          if(response.data.status==1){
+            this.image=response.data.data.image;
+            this.content=response.data.data.content;
+          }else{
+            console.log(response.data.message);
+          }
+         
         })
         .catch(error=> {
           this.$router.replace('/error/404')

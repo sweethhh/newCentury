@@ -40,17 +40,18 @@ class ShopCarTool{
       var filter = {}
 
       // 需要的信息列表
-      var filterResout = ['title', 'money', 'id']
+      var filterResout = ['title', 'price', 'id']
 
       for(var i=0; i<filterResout.length; i++){
         var innreKey = filterResout[i]
         filter[innreKey] = value[innreKey]
       }
-      filter.img = value.banner[0] ? value.banner[0].src : '' // 取一张商品图片
-      filter.link = '/detail/'+value.id
-      filter.length = 1
+      filter.img = 'http://18146ym266.iask.in:14832/'+value.picture ? 'http://18146ym266.iask.in:14832/'+value.picture : ''; // 取一张商品图片
+      filter.link = '/detail/'+value.id;
+      filter.length = 1;
+      filter.price=value.price;
 
-      this.shopCarDB[key] = filter
+      this.shopCarDB[key] = filter;
     }
 
     this.upData()
