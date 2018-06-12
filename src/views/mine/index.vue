@@ -3,33 +3,33 @@
   <div class="app-init scroll-box mine-page footer-hack">
     <div class="user-box public-padding">
       <div class="face-book">
-        <img @click="$router.openPage('/pay')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/normal-face.png" alt="">
+        <img @click="$router.openPage('/login')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/normal-face.png" alt="">
       </div>
-      <p class="fl" @click="$router.openPage('/pay')"> 登录 /  注册 </p>
+      <p class="fl" @click="$router.openPage('/login')"> 登录 /  注册 </p>
     </div>
 
-    <div class="dingdan public-padding p-item" @click="$router.openPage('/pay')">
+    <div class="dingdan public-padding p-item" @click="$router.openPage('/order')">
       我的订单
     </div>
 
     <div class="tab-box clear">
-      <div class="item" @click="$router.openPage('/pay')">
+      <div class="item" @click="$router.openPage('1')">
         <p class="icon">
           <span class="iconfont icon-qianbao"></span>
         </p>
         <p class="name">待付款</p>
       </div>
-      <div class="item" @click="$router.openPage('/pay')">
+      <div class="item" @click="$router.openPage('2')">
         <p class="icon">
           <span class="iconfont icon-daishouhuo"></span>
         </p>
         <p class="name">待收货</p>
       </div>
-      <div class="item" @click="$router.openPage('/pay')">
+      <div class="item" @click="$router.openPage('3')">
         <p class="icon">
-          <span class="iconfont icon-buoumaotubiao46"></span>
+          <span class="iconfont icon-daipingjia"></span>
         </p>
-        <p class="name">退换修</p>
+        <p class="name">待评价</p>
       </div>
     </div>
 
@@ -47,11 +47,7 @@
     <div class="new-wrap">
       <div class="dingdan public-padding p-item" @click="$router.openPage('/pay')">
         <span class="iconfont icon-fuwuerji2" style="color: #F96C5E;"></span>
-        <span>服务中心</span>
-      </div>
-      <div class="dingdan public-padding p-item" @click="$router.openPage('/pay')">
-        <span class="iconfont icon-shop" style="color: #FF8B43;"></span>
-        <span>小米之家</span>
+        <span>客服中心</span>
       </div>
     </div>
 
@@ -68,7 +64,12 @@
 
 <script type="text/ecmascript-6">
   export default{
-    name: 'mine-page'
+    name: 'mine-page',
+    methods: {
+      openPage(idx){
+        1212
+      }
+    }
   }
 </script>
 
@@ -80,7 +81,7 @@
 
     .user-box
       height: getIphonese(142px)
-      background: #f37d0f url(http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/bg.63c8e19.png) repeat top center
+      background-color: #e6423b
       background-size: 7.7rem
       @include box-sizing
       padding-top: getIphonese(28px)

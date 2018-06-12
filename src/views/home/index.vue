@@ -3,7 +3,8 @@
     <header class="public-header">
       <form class="search-box clear">
         <div class="fl logo">
-          <span class="iconfont icon-xiaomi"></span>
+          <!-- <span class="iconfont icon-xiaomi"></span> -->
+          <img :src="logo" class="logoicon">
         </div>
         <div class="input-box" @click="$router.openPage('/search')">
           <span class="iconfont icon-sousuo-copy absolute"></span>
@@ -13,14 +14,6 @@
           <span class="iconfont icon-smile"></span>
         </div>
       </form>
-
-      <nav class="menu-box scroll-box-x noscroll">
-        <ul class="wrap-box clear">
-          <li class="item" :class="{ 'active' : index == navListActiveIndex }" v-for="(value, index) in navList" @click="navChange(index)">
-            <span>{{value.name}}</span>
-          </li>
-        </ul>
-      </nav>
     </header>
 
 
@@ -29,36 +22,71 @@
     <div ref="view01" class="app-init scroll-box tab-box mi-tj footer-hack" v-show="navListActiveIndex == 0">
       <swiper :list="bannerList"></swiper>
       <div class="nav-mi-tj clear">
-        <a href="javascript:;" class="fl">
-          <img @click="$router.openPage('/pay')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011022292984819.png" alt="">
+        <a href="javascript:;" class="fl goodsType">
+          <!-- <img @click="$router.openPage('/pay')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011022292984819.png" alt=""> -->
+          <div @click="changeType(0)">
+            <svg class="icona iconType" aria-hidden="true">
+                <use xlink:href="#icon-39"></use>
+            </svg>
+            <p>生鲜水果</p>
+          </div>
         </a>
-        <a href="javascript:;" class="fl">
-          <img @click="$router.openPage('/pay')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011022292372054.png" alt="">
+        <a href="javascript:;" class="fl goodsType">
+          <div @click="changeType(1)">
+            <svg class="icona iconType" aria-hidden="true">
+                <use xlink:href="#icon-26"></use>
+            </svg>
+            <p>休闲零食</p>
+          </div>
         </a>
-        <a href="javascript:;" class="fl">
-          <img @click="$router.openPage('/pay')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011022291629252.png" alt="">
+        <a href="javascript:;" class="fl goodsType">
+          <div @click="changeType(2)">
+            <svg class="icona iconType" aria-hidden="true">
+                <use xlink:href="#icon-29"></use>
+            </svg>
+            <p>奶水饮品</p>
+          </div>
         </a>
-        <a href="javascript:;" class="fl">
-          <img @click="$router.openPage('/pay')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011022290460400.png" alt="">
+        <a href="javascript:;" class="fl goodsType">
+          <div @click="changeType(3)">
+            <svg class="icona iconType" aria-hidden="true">
+                <use xlink:href="#icon-75"></use>
+            </svg>
+            <p>粮油厨房</p>
+          </div>
         </a>
-      </div>
-
-      <div class="shop-item clear">
-        <img @click="$router.openPage('/detail/1001')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011114551289342.png" class="fl href" alt="">
-        <img @click="$router.openPage('/detail/1004')" src="//cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/e2ad0dbf777fda097e55cea9ce716e33.jpg?thumb=1&w=358&h=252" class="fr href" style="margin-bottom: 0.05rem" alt="">
-        <img @click="$router.openPage('/detail/1005')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011114550596671.png" class="fr href" alt="">
-      </div>
-
-      <div class="shop-item clear">
-        <img @click="$router.openPage('/detail/1003')"  v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/a589d24e74c4d96191dd46635054e804.jpg'" alt="">
-      </div>
-
-      <div class="shop-item clear">
-        <img @click="$router.openPage('/detail/1006')" v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011115034174111.png'" alt="">
-      </div>
-
-      <div class="shop-item clear">
-        <img @click="$router.openPage('/detail/1007')" v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011115033089933.png'" alt="">
+        <a href="javascript:;" class="fl goodsType">
+          <div @click="changeType(4)">
+            <svg class="icona iconType" aria-hidden="true">
+                <use xlink:href="#icon-100"></use>
+            </svg>
+            <p>家庭套餐</p>
+          </div>
+        </a>
+        <a href="javascript:;" class="fl goodsType">
+          <div @click="changeType(5)">
+            <svg class="icona iconType" aria-hidden="true">
+                <use xlink:href="#icon-85"></use>
+            </svg>
+            <p>进口好货</p>
+          </div>
+        </a>
+        <a href="javascript:;" class="fl goodsType">
+          <div @click="changeType(6)">
+            <svg class="icona iconType" aria-hidden="true">
+                <use xlink:href="#icon-51"></use>
+            </svg>
+            <p>方便速食</p>
+          </div>
+        </a>
+        <a href="javascript:;" class="fl goodsType">
+          <div @click="changeType(7)">
+            <svg class="icona iconType" aria-hidden="true">
+                <use xlink:href="#icon-96"></use>
+            </svg>
+            <p>个人护理</p>
+          </div>
+        </a>
       </div>
 
       <div class="shop-item">
@@ -76,569 +104,47 @@
         </div>
       </div>
     </div>
+     <div class="loading-box" :class="{ 'active' : loaded }" v-show="hide">
 
-    <div ref="view02" class="app-init scroll-box tab-box footer-hack" v-show="navListActiveIndex == 1">
-      <swiper :list="bannerList01"></swiper>
+      <span class="load-ani iconfont icon-jiazai"></span>
 
-      <div class="shop-item">
-        <img src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316464243450.png" alt="">
-        <div class="shop-box clear">
-          <div class="shop-box-item" v-for="target in shoplist01" @click="$router.openPage(target.href)">
-            <img v-lazy="target.src" alt="">
-            <p class="title">{{ target.title }}</p>
-            <p class="con">{{ target.con }}</p>
-            <p class="money">
-              <span class="small">￥</span> {{ target.money }}
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
-
-    <div ref="view03" class="app-init scroll-box tab-box footer-hack" v-show="navListActiveIndex == 2">
-      <swiper :list="bannerList02"></swiper>
-      <div class="shop-item">
-        <img src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316464243450.png" alt="">
-        <div class="shop-box clear">
-          <div class="shop-box-item" v-for="target in shoplist02" @click="$router.openPage(target.href)">
-            <img v-lazy="target.src" alt="">
-            <p class="title">{{ target.title }}</p>
-            <p class="con">{{ target.con }}</p>
-            <p class="money">
-              <span class="small">￥</span> {{ target.money }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div ref="view04" class="app-init scroll-box tab-box footer-hack" v-show="navListActiveIndex == 3">
-      <swiper :list="bannerList03"></swiper>
-      <div class="shop-item">
-        <img src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316464243450.png" alt="">
-        <div class="shop-box clear">
-          <div class="shop-box-item" v-for="target in shoplist03" @click="$router.openPage(target.href)">
-            <img v-lazy="target.src" alt="">
-            <p class="title">{{ target.title }}</p>
-            <p class="con">{{ target.con }}</p>
-            <p class="money">
-              <span class="small">￥</span> {{ target.money }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div ref="view05" class="app-init scroll-box tab-box footer-hack" v-show="navListActiveIndex == 4">
-      <swiper :list="bannerList04"></swiper>
-      <div class="shop-item">
-        <img src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316464243450.png" alt="">
-        <div class="shop-box clear">
-          <div class="shop-box-item" v-for="target in shoplist04" @click="$router.openPage(target.href)">
-            <img v-lazy="target.src" alt="">
-            <p class="title">{{ target.title }}</p>
-            <p class="con">{{ target.con }}</p>
-            <p class="money">
-              <span class="small">￥</span> {{ target.money }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div ref="view06" class="app-init scroll-box tab-box footer-hack" v-show="navListActiveIndex == 5">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317010732422.png'" @click="$router.openPage('/detail/1003')" alt="">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/48ca6cfb19c45e7cbecbd8c34c757445.jpg'" alt="">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317012799998.png'" alt="">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317013522274.png'" alt="">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317005752430.png'" alt="">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317011947232.png'" alt="">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317014434073.png'" alt="">
-    </div>
-
-    <div ref="view07" class="app-init scroll-box tab-box footer-hack" v-show="navListActiveIndex == 6">
-      <swiper :list="bannerList06"></swiper>
-      <div class="shop-item">
-        <img src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316464243450.png" alt="">
-        <div class="shop-box clear">
-          <div class="shop-box-item" v-for="target in shoplist06" @click="$router.openPage(target.href)">
-            <img v-lazy="target.src" alt="">
-            <p class="title">{{ target.title }}</p>
-            <p class="con">{{ target.con }}</p>
-            <p class="money">
-              <span class="small">￥</span> {{ target.money }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div ref="view08" class="app-init scroll-box tab-box footer-hack" v-show="navListActiveIndex == 7">
-      <swiper :list="bannerList07"></swiper>
-      <div class="shop-item">
-        <img src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316464243450.png" alt="">
-        <div class="shop-box clear">
-          <div class="shop-box-item" v-for="target in shoplist07" @click="$router.openPage(target.href)">
-            <img v-lazy="target.src" alt="">
-            <p class="title">{{ target.title }}</p>
-            <p class="con">{{ target.con }}</p>
-            <p class="money">
-              <span class="small">￥</span> {{ target.money }}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div ref="view09" class="app-init scroll-box tab-box footer-hack" v-show="navListActiveIndex == 8">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317154829739.png'" alt="">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317155627636.png'" alt="">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317160444789.png'" alt="">
-      <img v-lazy="'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317161351928.png'" alt="">
-    </div>
-
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import swiper from '../../components/swiper'
   import VueDB from '../../util/vue-db/vue-db'
+  import iconfont from '../../assets/js/iconfont.js'
+  import axios from 'axios'
+
+
 
   let DB = new VueDB()
 
   export default {
     data() {
       return {
+        logo: "../../static/img/logo1.png",
         bannerList : [
           {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/01.png',
+            src: '../../static/img/banner1.jpg',
             href: '/detail/1001'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/02.jpg',
-            href: '/detail/1002'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/03.jpg',
-            href: '/detail/1003'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/04.jpg',
-            href: '/detail/1004'
+          },{
+            src: '../../static/img/banner2.jpg',
+            href: '/detail/1019'
+          },{
+            src: '../../static/img/banner3.png',
+            href: '/detail/1019'
+          },{
+            src: '../../static/img/banner4.png',
+            href: '/detail/1019'
           }
         ],
-        shoplist : [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/65eeeedca463345b0cfd36e042185af3.jpg',
-            title: '米家感应灯',
-            con: '举步之明，光明立现',
-            money: 49,
-            href: '/detail/1008'
-          }
-        ],
-        navList: [
-          {
-            name: '推荐'
-          },
-          {
-            name: '手机'
-          },
-          {
-            name: '智能'
-          },
-          {
-            name: '电视'
-          },
-          {
-            name: '电脑'
-          },
-          {
-            name: '全面屏'
-          },
-          {
-            name: '生活周边'
-          },
-          {
-            name: '盒子'
-          },
-          {
-            name: '艺术'
-          }
-        ],
+        shoplist : [],
         navListActiveIndex: 0,
-
-        bannerList01 : [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/1888a9f0a6ae807113cb428b9e01f5fe.jpg',
-            href: '/detail/1007'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213275295675.png',
-            href: '/detail/1009'
-          }
-        ],
-        shoplist01: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213403719963.png',
-            title: '红米Note 4X 32GB',
-            con: '多彩金属 / 超长续航',
-            money: 899,
-            href: '/detail/1010'
-          }
-        ],
-
-        bannerList02 : [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011213533255816.png',
-            href: '/detail/1011'
-          }
-        ],
-        shoplist02: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/93cc1fa15e0e9af87e37cba047d8186e.jpg',
-            title: '米家四位四控插线板',
-            con: '四位分控，随用随开',
-            money: 89,
-            href: '/detail/1012'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/93cc1fa15e0e9af87e37cba047d8186e.jpg',
-            title: '米家四位四控插线板',
-            con: '四位分控，随用随开',
-            money: 89,
-            href: '/detail/1012'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/93cc1fa15e0e9af87e37cba047d8186e.jpg',
-            title: '米家四位四控插线板',
-            con: '四位分控，随用随开',
-            money: 89,
-            href: '/detail/1012'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/93cc1fa15e0e9af87e37cba047d8186e.jpg',
-            title: '米家四位四控插线板',
-            con: '四位分控，随用随开',
-            money: 89,
-            href: '/detail/1012'
-          }
-        ],
-
-        bannerList03: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2bf70582edb45d83d7120a22c87200c9.jpg',
-            href: '/detail/1013'
-          }
-        ],
-        shoplist03: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316504878837.png',
-            title: '小米电视4A 43英寸',
-            con: '全高清 HDR，64位处理器',
-            money: 1999,
-            href: '/detail/1004'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316504878837.png',
-            title: '小米电视4A 43英寸',
-            con: '全高清 HDR，64位处理器',
-            money: 1999,
-            href: '/detail/1004'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316504878837.png',
-            title: '小米电视4A 43英寸',
-            con: '全高清 HDR，64位处理器',
-            money: 1999,
-            href: '/detail/1004'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316504878837.png',
-            title: '小米电视4A 43英寸',
-            con: '全高清 HDR，64位处理器',
-            money: 1999,
-            href: '/detail/1004'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316504878837.png',
-            title: '小米电视4A 43英寸',
-            con: '全高清 HDR，64位处理器',
-            money: 1999,
-            href: '/detail/1004'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316504878837.png',
-            title: '小米电视4A 43英寸',
-            con: '全高清 HDR，64位处理器',
-            money: 1999,
-            href: '/detail/1004'
-          }
-        ],
-
-        bannerList04: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011316542272196.png',
-            href: '/detail/1014'
-          }
-        ],
-        shoplist04: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/cf0b9ede4dbbc115f3d2d1b032e97d21.jpg',
-            title: '13.3"笔记本i5 独显',
-            con: '指纹解锁，全金属机身',
-            money: 5199,
-            href: '/detail/1014'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/cf0b9ede4dbbc115f3d2d1b032e97d21.jpg',
-            title: '13.3"笔记本i5 独显',
-            con: '指纹解锁，全金属机身',
-            money: 5199,
-            href: '/detail/1014'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/cf0b9ede4dbbc115f3d2d1b032e97d21.jpg',
-            title: '13.3"笔记本i5 独显',
-            con: '指纹解锁，全金属机身',
-            money: 5199,
-            href: '/detail/1014'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/cf0b9ede4dbbc115f3d2d1b032e97d21.jpg',
-            title: '13.3"笔记本i5 独显',
-            con: '指纹解锁，全金属机身',
-            money: 5199,
-            href: '/detail/1014'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/cf0b9ede4dbbc115f3d2d1b032e97d21.jpg',
-            title: '13.3"笔记本i5 独显',
-            con: '指纹解锁，全金属机身',
-            money: 5199,
-            href: '/detail/1014'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/cf0b9ede4dbbc115f3d2d1b032e97d21.jpg',
-            title: '13.3"笔记本i5 独显',
-            con: '指纹解锁，全金属机身',
-            money: 5199,
-            href: '/detail/1014'
-          }
-        ],
-
-        bannerList06: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317083831934.png',
-            href: '/detail/1015'
-          }
-        ],
-        shoplist06: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317083193859.png',
-            title: '8H护颈乳胶枕 Z2',
-            con: '多重新科技  升级好睡眠',
-            money: 239,
-            href: '/detail/1016'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317083193859.png',
-            title: '8H护颈乳胶枕 Z2',
-            con: '多重新科技  升级好睡眠',
-            money: 239,
-            href: '/detail/1016'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317083193859.png',
-            title: '8H护颈乳胶枕 Z2',
-            con: '多重新科技  升级好睡眠',
-            money: 239,
-            href: '/detail/1016'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317083193859.png',
-            title: '8H护颈乳胶枕 Z2',
-            con: '多重新科技  升级好睡眠',
-            money: 239,
-            href: '/detail/1016'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317083193859.png',
-            title: '8H护颈乳胶枕 Z2',
-            con: '多重新科技  升级好睡眠',
-            money: 239,
-            href: '/detail/1016'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317083193859.png',
-            title: '8H护颈乳胶枕 Z2',
-            con: '多重新科技  升级好睡眠',
-            money: 239,
-            href: '/detail/1015'
-          }
-        ],
-
-        bannerList07: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317121511939.png',
-            href: '/detail/1017'
-          }
-        ],
-        shoplist07: [
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317120865819.png',
-            title: '小米影视会员卡',
-            con: '畅享海量片库',
-            money: 498,
-            href: '/detail/1018'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317120865819.png',
-            title: '小米影视会员卡',
-            con: '畅享海量片库',
-            money: 498,
-            href: '/detail/1018'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317120865819.png',
-            title: '小米影视会员卡',
-            con: '畅享海量片库',
-            money: 498,
-            href: '/detail/1018'
-          },
-          {
-            src: 'http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011317120865819.png',
-            title: '小米影视会员卡',
-            con: '畅享海量片库',
-            money: 498,
-            href: '/detail/1018'
-          }
-        ]
+        loaded: false,
+        hide: true
       }
     },
     components: {
@@ -647,33 +153,48 @@
     mounted() {
       // 笨方法，设置N个盒子的scroll top
 
-      this.navListActiveIndex = DB.getItemOnce('home-index-nowIndex').toNumber() || 0
+       this.navListActiveIndex = DB.getItemOnce('home-index-nowIndex').toNumber() || 0
 
       setTimeout(()=>{
         this.$refs.view01.scrollTop = DB.getItemOnce('home-index-view01').toNumber() || 0
-        this.$refs.view02.scrollTop = DB.getItemOnce('home-index-view02').toNumber() || 0
-        this.$refs.view03.scrollTop = DB.getItemOnce('home-index-view03').toNumber() || 0
-        this.$refs.view04.scrollTop = DB.getItemOnce('home-index-view04').toNumber() || 0
-        this.$refs.view05.scrollTop = DB.getItemOnce('home-index-view05').toNumber() || 0
-        this.$refs.view06.scrollTop = DB.getItemOnce('home-index-view06').toNumber() || 0
-        this.$refs.view07.scrollTop = DB.getItemOnce('home-index-view07').toNumber() || 0
       }, 10)
-
-
+      // 获取商品列表
+      axios.get('./static/server/2000.json')
+          .then(response=> {
+           this.shoplist= response.data.data;
+           this.loaded = true;
+            setTimeout(()=>{
+              this.hide = false
+            }, 1000)
+          })
+          .catch(error=> {
+            this.$router.replace('/error/404')
+          });
     },
     methods: {
-      navChange(index) { // 导航栏切换
-        this.navListActiveIndex = index;
+    // 根据分类改变显示
+      changeType(type){
+        this.loaded = false;
+        this.hide = true;
+        axios.get('./static/server/2001.json',{
+          params: {
+            type
+          }
+        })
+          .then(response=> {
+           this.shoplist= response.data.data;
+           this.loaded = true;
+            setTimeout(()=>{
+              this.hide = false
+            }, 1000)
+          })
+          .catch(error=> {
+            this.$router.replace('/error/404')
+          });
       }
     },
     beforeRouteLeave (to, from, next) {
       DB.setItem('home-index-view01', this.$refs.view01.scrollTop)
-      DB.setItem('home-index-view02', this.$refs.view02.scrollTop)
-      DB.setItem('home-index-view03', this.$refs.view03.scrollTop)
-      DB.setItem('home-index-view04', this.$refs.view04.scrollTop)
-      DB.setItem('home-index-view05', this.$refs.view05.scrollTop)
-      DB.setItem('home-index-view06', this.$refs.view06.scrollTop)
-      DB.setItem('home-index-view07', this.$refs.view07.scrollTop)
 
       DB.setItem('home-index-nowIndex', this.navListActiveIndex)
       next();
@@ -683,12 +204,97 @@
 
 <style type="text/sass" lang="sass">
 
-  .home-index .tab-box
-    top: 2.5rem
-  .home-index .tab-box.mi-tj .nav-mi-tj a
-      display: block
-      width:  25%
-  .home-index .shop-box
-    background-color: #fff
+    @keyframes ani01
+      0%
+        transform: rotate(0deg)
+      100%
+        transform: rotate(360deg)
+    @-webkit-keyframes ani01
+      0%
+        -webkit-transform: rotate(0deg)
+      100%
+        -webkit-transform: rotate(360deg)
 
+    .home-index .tab-box
+        top: 1.35rem
+    .home-index .tab-box.mi-tj .nav-mi-tj a
+        display: block
+        width:  25%
+    .home-index .shop-box
+      background-color: #fff
+    
+    .loading-box
+      position: absolute
+      left: 0px
+      top: 0px
+      right: 0px
+      bottom: 0px
+      background-color: #000
+      opacity: 0.6
+      z-index: 999
+      transition: all .4s ease
+      .load-ani
+        display: block
+        position: absolute
+        width: 4rem
+        height: 4rem
+        line-height: 4rem
+        text-align: center
+        color: #fff9f8
+        font-size: 2rem
+        top: 50%
+        margin-left: -2rem
+        margin-top: -2rem
+        border-radius: 50%
+        left: 50%
+        -webkit-transform: scale(0)
+        transform: scale(0)
+        -webkit-animation: ani01 1s ease infinite
+        animation: ani01 1s ease infinite
+
+
+    .loading-box.active
+      opacity: 0
+</style>
+<style type="text/css">
+
+  .icona {
+    /* 通过设置 font-size 来改变图标大小 */
+    width: 1em; height: 1em;
+    /* 图标和文字相邻时，垂直对齐 */
+    vertical-align: -0.15em;
+    /* 通过设置 color 来改变 SVG 的颜色/fill */
+    fill: currentColor;
+    /* path 和 stroke 溢出 viewBox 部分在 IE 下会显示
+       normalize.css 中也包含这行 */
+    overflow: hidden;
+  }
+  .goodsType{
+    margin-top: 15px; 
+  }
+  .goodsType p{
+    font-size: 20px;
+    font-size: 0.4rem;
+    color: rgb(102, 102, 102);
+    text-align: center;
+    width: 160px;
+    width: 2.4rem;
+  }
+  .iconType{
+    font-size: 95px;
+    font-size: 1.75rem;
+    text-align: center;
+    width: 160px;
+    width: 2.4rem;
+  }
+  .icon-smile{
+    color: #fff;
+  }
+  .logoicon{
+    margin-top: -0.1rem;
+    width: 1rem;
+  }
+  .public-header .search-box .logo{
+    padding: 0 0.2938rem !important;
+  }
 </style>

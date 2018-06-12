@@ -26,14 +26,14 @@
 
 
       <ul class="hot-box">
-        <li class="item">小米耳机</li>
-        <li class="item">小米音箱</li>
-        <li class="item">电视机</li>
-        <li class="item">红米</li>
-        <li class="item">24寸</li>
-        <li class="item">年轻人的第一张简历</li>
-        <li class="item">雷军</li>
-        <li class="item">Are you ok?</li>
+        <li class="item">夏日冰西瓜</li>
+        <li class="item">小龙虾</li>
+        <li class="item">鸭掌</li>
+        <li class="item">可口可乐</li>
+        <li class="item">冰鸡翅</li>
+        <li class="item">旺旺碎冰冰</li>
+        <li class="item">伊利纯牛奶</li>
+        <li class="item">大红枣酸奶</li>
       </ul>
     </div>
 
@@ -61,12 +61,13 @@
     mounted() {
       // 默认请求一遍
       // 由于为本地json 不对错误进行处理
-      axios.get('./static/server/lib.json')
+      axios.get('http://18146ym266.iask.in:14832/showAllGoods')
         .then(response=> {
           this.resout = response.data.resout;
+          console.log(this.resout)
         })
         .catch(error=> {
-          // this.$router.replace('/error/404')
+          this.$router.replace('/error/404')
         });
     },
     computed: {

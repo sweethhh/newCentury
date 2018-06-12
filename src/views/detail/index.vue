@@ -8,9 +8,9 @@
       </div>
 
       <div class="content">
-        <div class="hot">
+<!--         <div class="hot">
           <img :src="info.hot" @click="$router.openPage(info.hotLink)" alt="">
-        </div>
+        </div> -->
         <div class="title-box">
           <h3>{{ info.title }}</h3>
           <p style="color:#ff4a00">{{ info.bigContent }}</p>
@@ -20,23 +20,6 @@
             <span class="money" v-if="info.money">￥{{ info.money }}</span>
             <span class="no-money" v-if="info.noMoney">￥{{ info.noMoney }}</span>
             <span class="tips" v-for="target in info.tips">{{ target }}</span>
-          </div>
-        </div>
-
-        <div class="touch-item-box">
-          <div class="touch-item">
-            <span class="key">已选</span>
-            {{ info.chouse }}
-          </div>
-          <div class="touch-item">
-            <span class="key">送至</span>
-            <span v-for="target in info.address">{{ target }}</span>
-          </div>
-        </div>
-
-        <div class="touch-item-box">
-          <div class="touch-item">
-            <span class="key">配件</span>
           </div>
         </div>
 
@@ -51,13 +34,18 @@
       <div class="left-box fl">
         <div class="item" @click="$router.openPage('/')">
           <p>
-            <span class="iconfont icon-shouye"></span>
+            <svg class="iconButtom" aria-hidden="true">
+              <use xlink:href="#icon-home"></use>
+            </svg>
           </p>
           <p class="name">首页</p>
         </div>
         <div class="item cursom-shopcar" @click="$router.openPage('/shoppingcart')">
           <p>
-            <span class="iconfont icon-gouwuche"></span>
+            <!-- <span class="iconfont icon-gouwuche"></span> -->
+            <svg class="iconButtom" aria-hidden="true">
+                <use xlink:href="#icon-cart"></use>
+            </svg>
           </p>
           <p class="name">购物车</p>
 
@@ -121,6 +109,7 @@
         if(!id){
           this.$router.replace('/error/404')
         }
+        // 获取商品详情页
         axios.get('./static/server/'+id+'.json')
           .then(response=> {
 
@@ -216,7 +205,7 @@
       .press
         padding-top: 0.2rem
         .money
-          color: #ff6700
+          color: #e6423b
           font-size: .56rem
           font-weight: 700
         .no-money
@@ -229,7 +218,7 @@
           padding: .2em
           color: #fff
           font-size: 0.3rem
-          background: #ff6700
+          background: #e6423b
           margin-left: 0.2rem
           border-radius: 2px
           position: relative
@@ -282,7 +271,7 @@
       line-height: $footerHeight
       text-align: center
       color: #fff
-      background-color: #FF6700
+      background-color: #e6423b
       width: 60%
 
     .loading-box

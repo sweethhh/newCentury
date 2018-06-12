@@ -69,6 +69,38 @@ export default new Router({
       }
     },
     {
+      path: '/order',
+      name: 'order',
+      component(resolve){
+        require(['@/views/order/index.vue'], resolve)
+      }
+    },
+    {
+      path: '/activity',
+      name: 'activity',
+      component(resolve){
+        require(['@/views/classification/activity.vue'], resolve)
+      }
+    },{
+      path: '/login',
+      name: 'login',
+      component(resolve){
+        require(['@/views/login/login.vue'], resolve)
+      }
+    },{
+      path: '/register',
+      name: 'register',
+      component(resolve){
+        require(['@/views/login/register.vue'], resolve)
+      }
+    },{
+      path : '*',
+      name: 'error-404',
+      component(resolve){
+        require(['@/views/error/404.vue'], resolve)
+      }
+    },
+    {
       path: '/error/404',
       name: 'error-404',
       component(resolve){

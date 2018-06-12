@@ -35,12 +35,12 @@
   .header-back
     line-height: getIphonese(42px)
     padding: getIphonese(30px) 0
-    background-color: #f2f2f2
+    background-color: #e6423b
     @include ani01-transform
     transform: translateY(-100%)
 
     @include f14px
-    color: #666666
+    color: #fff
     text-align: center
     position: relative
     .myicon
@@ -52,7 +52,9 @@
       font-size: 0.58rem
 
     .back
+      color : #fff
       left: 0
     .search
+      color : #fff
       right: 0
 </style>
