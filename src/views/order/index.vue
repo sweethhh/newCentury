@@ -29,8 +29,13 @@
             <!-- 待收货订单 -->
             <div class="order-item item-talk" v-if="item.type === state && item.type === 0">
               <!-- 订单信息 -->
+              <ul>
+                <li v-for="info in item.sells">
+                  <p class="item-type">{{info.name}}</p>
+                </li>
+              </ul>
               <div class="item-row">
-                <p class="item-type">{{item.serviceName}}</p>
+                <p class="item-type">{{item.id}}</p>
                 <p class="item-state">待收货</p>
               </div>
               <div class="item-row">
@@ -39,7 +44,7 @@
               </div>
             </div>
             <!-- 待评价订单 -->
-            <div class="order-item item-waite" v-if="item.type === state && item.type === 3">
+            <div class="order-item item-waite" v-if="item.type === state && item.type === 1">
               <!-- 订单信息 -->
               <div class="item-row">
                 <p class="item-type">{{item.serviceName}}</p>
@@ -125,24 +130,41 @@
         //   localStorage.setItem('ifpay', false)
         //   _this.state = 1
         // }
+        // 获取用户id
+        let userId = sessionStorage.getItem('userNameId')
         // 获取订单列表
-        let url = 'http://18146ym266.iask.in:14832/showOrderByUserId?id=180610123903234546';
+        let url = 'http://18146ym266.iask.in:14832/showOrderByUserId?id=' + userId;
         axios.get(url)
         .then(function (res) {
           console.log('拉取的订单数据 ↓')
           let data = res.data.data
           console.log(data)
-          // // 拉取数据后以时间对订单进行排序
-          // for (let i = 0; i < data.length; i++) {
-          //   for (let j = i + 1; j < data.length; j++) {
-          //     if (data[i].time < data[j].time) {
-          //       let n = data[i]
-          //       data[i] = data[j]
-          //       data[j] = n
-          //     }
-          //   }
-          // }
+          for(let i = 0; i < data.length;i++){
+            let orderId = data[i].id;
+            console.log('id',orderId)
+            _this.getOrderDetail(orderId,i);
+          }
           _this.list = data
+          console.log('data1',_this.list)
+          // for(let i = 0; i < data.length;i++){
+          //   _this.sells[i] = data[i].sells
+          // console.log(_this.sells[i])
+          // }
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+      },
+      getOrderDetail(orderId,i) {
+        let _this = this;
+        let url = 'http://18146ym266.iask.in:14832/showOrderDetail?id=' + orderId;
+        let data;
+        axios.get(url)
+        .then(function (res) {
+          console.log('拉取的订单详情数据 ↓')
+          data = res.data.data.sells
+          console.log(data)
+          _this.list[i].sells = data;
         })
         .catch(function (error) {
           console.log(error)

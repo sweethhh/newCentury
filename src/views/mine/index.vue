@@ -1,7 +1,13 @@
 <template>
 
   <div class="app-init scroll-box mine-page footer-hack">
-    <div class="user-box public-padding">
+    <div v-if="userId" class="user-box public-padding">
+      <div class="face-book">
+        <img @click="$router.openPage('/login')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/normal-face.png" alt="">
+      </div>
+      <p class="fl">{{userId}}</p>
+    </div>
+    <div v-else class="user-box public-padding">
       <div class="face-book">
         <img @click="$router.openPage('/login')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/normal-face.png" alt="">
       </div>
@@ -69,6 +75,14 @@
 <script type="text/ecmascript-6">
   export default {
     name: 'mine-page',
+    data() {
+      return {
+        userId: ''
+      }
+    },
+    mounted() {
+      this.userId = sessionStorage.getItem('userNameId')
+    },
     methods: {
       openPage(idx){
         1212
