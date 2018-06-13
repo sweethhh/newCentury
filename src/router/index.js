@@ -76,6 +76,13 @@ export default new Router({
       }
     },
     {
+      path: '/address',
+      name: 'address',
+      component(resolve){
+        require(['@/views/address/index.vue'], resolve)
+      }
+    },
+    {
       path: '/activity',
       name: 'activity',
       component(resolve){

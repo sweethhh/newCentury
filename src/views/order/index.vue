@@ -6,8 +6,8 @@
     <!-- 订单类型栏 -->
     <div class="order-type">
       <span index="6" href="#" @click="changeType" :class="state===6 ? 'type-active':''">全部</span>
-      <span index="0" href="#" @click="changeType" :class="state===0 ? 'type-active':''">待付款</span>
-      <span index="1" href="#" @click="changeType" :class="state===1 ? 'type-active':''">待收货</span>
+      <span index="0" href="#" @click="changeType" :class="state===0 ? 'type-active':''">待收货</span>
+      <span index="1" href="#" @click="changeType" :class="state===1 ? 'type-active':''">待评价</span>
     </div>
       <!-- 订单列表 -->
       <div class="user-order">
@@ -15,37 +15,19 @@
           <li v-for="item in list">
             <!-- 全部订单 -->
             <div class="order-item item-finish" 
-            v-if="state === 6 && (item.orderState === 6 || item.orderState === 7)">
+            v-if="state === 6 && (item.type === 1 || item.type === 0)">
               <!-- 订单信息 -->
               <div class="item-row">
                 <p class="item-type">{{item.serviceName}}<span class="item-mentor montor-finish">导师<i>-</i>{{item.tutorName}}</span></p>
                 <img class="item-img" src="http://otn43irfn.bkt.clouddn.com/mentor/image/finish.png" alt="全部">
               </div>
               <div class="item-row">
-                <p class="item-time">{{timeStamp2String(item.time)}}</p>
+                <p class="item-time">{{getTime(item.sellDate)}}</p>
                 <p class="item-price price-finish">实付款<span>¥{{item.price}}</span></p>
               </div>
             </div>
-            <!-- 待付款订单 -->
-            <div class="order-item item-waite" v-if="item.orderState === state && item.orderState === 0">
-              <!-- 订单信息 -->
-              <div class="item-row">
-                <p class="item-type">{{item.serviceName}}</p>
-                <p class="item-state">待付款</p>
-              </div>
-              <div class="item-row">
-                <p class="item-mentor">导师<i>-</i>{{item.tutorName}}</p>
-                <p class="item-price">需支付<span>¥{{item.price}}</span></p>
-              </div>
-              <!-- 订单操作 -->
-              <div class="item-select" v-if="item.orderState === 0">
-                <span class="item-cancel" @click="cancelOrder">取消订单</span>
-                <span class="no-show">{{item.orderId}}</span>
-                <span class="item-pay" @click="payOrder">立即付款</span>
-              </div>
-            </div>
             <!-- 待收货订单 -->
-            <div class="order-item item-talk" v-if="item.orderState === state && item.orderState === 1">
+            <div class="order-item item-talk" v-if="item.type === state && item.type === 0">
               <!-- 订单信息 -->
               <div class="item-row">
                 <p class="item-type">{{item.serviceName}}</p>
@@ -54,6 +36,18 @@
               <div class="item-row">
                 <p class="item-mentor">导师<i>-</i>{{item.tutorName}}</p>
                 <p class="item-price">实付款<span>¥{{item.price}}</span></p>
+              </div>
+            </div>
+            <!-- 待评价订单 -->
+            <div class="order-item item-waite" v-if="item.type === state && item.type === 3">
+              <!-- 订单信息 -->
+              <div class="item-row">
+                <p class="item-type">{{item.serviceName}}</p>
+                <p class="item-state">待评价</p>
+              </div>
+              <div class="item-row">
+                <p class="item-mentor">导师<i>-</i>{{item.tutorName}}</p>
+                <p class="item-price">需支付<span>¥{{item.price}}</span></p>
               </div>
             </div>
           </li>
@@ -153,34 +147,30 @@
         .catch(function (error) {
           console.log(error)
         })
-        // if (_this.cancelorder) {
-        //   _this.cancelorder = false
-        // }
       },
       // 时间戳函数
-      timeStamp2String (time) {
-        var datetime = new Date()
-        datetime.setTime(time)
-        var year = datetime.getFullYear()
-        var month = datetime.getMonth() + 1
-        var date = datetime.getDate()
+      getTime (time) {
+        console.log(time)
+        var year = time.year
+        var month = time.monthValue
+        var date = time.dayOfMonth
         return year + '年' + month + '月' + date + '日'
       },
-      // 登陆函数
-      logIn () {
-        let openId = localStorage.getItem('openId')
-        // 如果存在有效openId，则登陆
-        if (openId && openId.length > 5) {
-          let url = '/tutor/api/user/login?openId=' + openId
-          axios.post(url)
-          .then(function (res) {
-            console.log(res)
-          })
-          .catch(function (err) {
-            console.log(err)
-          })
-        }
-      }
+      // // 登陆函数
+      // logIn () {
+      //   let openId = localStorage.getItem('openId')
+      //   // 如果存在有效openId，则登陆
+      //   if (openId && openId.length > 5) {
+      //     let url = '/tutor/api/user/login?openId=' + openId
+      //     axios.post(url)
+      //     .then(function (res) {
+      //       console.log(res)
+      //     })
+      //     .catch(function (err) {
+      //       console.log(err)
+      //     })
+      //   }
+      // }
     },
     watch: {
       '$route': 'dataG'
@@ -282,7 +272,7 @@
     line-height: 0.22rem;
     font-weight: bold;
   }
-  /* 待付款订单样式 */
+  /* 待评价订单样式 */
   .item-select {
     border-top: 0.01rem solid #eee;
     margin-top: 0.2rem;

@@ -63,11 +63,16 @@
       // 由于为本地json 不对错误进行处理
       axios.get('http://18146ym266.iask.in:14832/showAllGoods')
         .then(response=> {
-          this.resout = response.data.resout;
-          console.log(this.resout)
+          this.resout = response.data.data;
+          console.log("response",response)
+          console.log("data",this.resout)
+          for(let i = 0; i < this.resout.length;i++){
+            this.resout[i].link = 'detail/' + this.resout[i].id;
+            console.log('link',this.resout[i].link)
+          }
         })
         .catch(error=> {
-          this.$router.replace('/error/404')
+          // this.$router.replace('/error/404')
         });
     },
     computed: {
@@ -83,7 +88,6 @@
             callback.push(this.resout[i])
           }
         }
-
         return callback
       }
     }

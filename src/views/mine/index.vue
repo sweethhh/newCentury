@@ -49,6 +49,10 @@
         <span class="iconfont icon-fuwuerji2" style="color: #F96C5E;"></span>
         <span>客服中心</span>
       </div>
+      <div class="dingdan public-padding p-item" @click="$router.openPage('/address')">
+        <span class="iconfont icon-dizhiguanli" style="color: #F96C5E;"></span>
+        <span>地址管理</span>
+      </div>
     </div>
 
     <div class="new-wrap">
@@ -63,7 +67,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  export default{
+  export default {
     name: 'mine-page',
     methods: {
       openPage(idx){
