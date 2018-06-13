@@ -5,8 +5,8 @@
     </div>
 
     <div class="wrap-box scroll-box">
-      <div class="activityItem" @click="$router.openPage('/activity')"  v-for="item in activity">
-        <img :src="item.image">
+      <div class="activityItem" @click="$router.openPage('/activity/'+item.id)"  v-for="item in activity">
+        <img v-lazy="getTitle.title+item.image">
         <p class="discrib">{{ item.content }}</p>
       </div>
     </div>
@@ -40,10 +40,14 @@
 
     },
     mounted() {
-      axios.get('./static/server/activity.json')
+      axios.get(this.getTitle.title+'/showAllActivities')
         .then(response=> {
-         this.activity=response.data.data;
-         DB.setItem('activityId',response.data.data.id);
+          if(response.data.status==1){
+            this.activity=response.data.data;
+          }else{
+            console.log(response.data.message);
+          }
+         
         })
         .catch(error=> {
           this.$router.replace('/error/404')

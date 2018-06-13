@@ -24,7 +24,7 @@
       <div class="nav-mi-tj clear">
         <a href="javascript:;" class="fl goodsType">
           <!-- <img @click="$router.openPage('/pay')" src="http://oz3tayfme.bkt.clouddn.com/show.liluo.cc/2018011022292984819.png" alt=""> -->
-          <div @click="changeType(0)">
+          <div @click="changeType('生鲜水果')">
             <svg class="icona iconType" aria-hidden="true">
                 <use xlink:href="#icon-39"></use>
             </svg>
@@ -32,7 +32,7 @@
           </div>
         </a>
         <a href="javascript:;" class="fl goodsType">
-          <div @click="changeType(1)">
+          <div @click="changeType('休闲零食')">
             <svg class="icona iconType" aria-hidden="true">
                 <use xlink:href="#icon-26"></use>
             </svg>
@@ -40,7 +40,7 @@
           </div>
         </a>
         <a href="javascript:;" class="fl goodsType">
-          <div @click="changeType(2)">
+          <div @click="changeType('奶水饮品')">
             <svg class="icona iconType" aria-hidden="true">
                 <use xlink:href="#icon-29"></use>
             </svg>
@@ -48,7 +48,7 @@
           </div>
         </a>
         <a href="javascript:;" class="fl goodsType">
-          <div @click="changeType(3)">
+          <div @click="changeType('粮油厨房')">
             <svg class="icona iconType" aria-hidden="true">
                 <use xlink:href="#icon-75"></use>
             </svg>
@@ -56,7 +56,7 @@
           </div>
         </a>
         <a href="javascript:;" class="fl goodsType">
-          <div @click="changeType(4)">
+          <div @click="changeType('家庭套餐')">
             <svg class="icona iconType" aria-hidden="true">
                 <use xlink:href="#icon-100"></use>
             </svg>
@@ -64,7 +64,7 @@
           </div>
         </a>
         <a href="javascript:;" class="fl goodsType">
-          <div @click="changeType(5)">
+          <div @click="changeType('进口好货')">
             <svg class="icona iconType" aria-hidden="true">
                 <use xlink:href="#icon-85"></use>
             </svg>
@@ -72,7 +72,7 @@
           </div>
         </a>
         <a href="javascript:;" class="fl goodsType">
-          <div @click="changeType(6)">
+          <div @click="changeType('方便速食')">
             <svg class="icona iconType" aria-hidden="true">
                 <use xlink:href="#icon-51"></use>
             </svg>
@@ -80,7 +80,7 @@
           </div>
         </a>
         <a href="javascript:;" class="fl goodsType">
-          <div @click="changeType(7)">
+          <div @click="changeType('个人护理')">
             <svg class="icona iconType" aria-hidden="true">
                 <use xlink:href="#icon-96"></use>
             </svg>
@@ -92,12 +92,11 @@
       <div class="shop-item">
         <div class="shop-box clear">
 
-          <div class="shop-box-item" v-for="target in shoplist" @click="$router.openPage(target.href)">
-            <img v-lazy="target.src" alt="">
-            <p class="title">{{ target.title }}</p>
-            <p class="con">{{ target.con }}</p>
+          <div class="shop-box-item" v-for="target in shoplist" @click="$router.openPage('/detail/'+target.id)">
+            <img v-lazy="getTitle.title+target.picture" alt="">
+            <p class="title">{{ target.name }}</p>
             <p class="money">
-              <span class="small">￥</span> {{ target.money }}
+              <span class="small">￥</span> {{ target.price }}
             </p>
           </div>
 
@@ -139,7 +138,7 @@
           },{
             src: '../../static/img/banner4.png',
             href: '/detail/1019'
-          }
+          } 
         ],
         shoplist : [],
         navListActiveIndex: 0,
@@ -151,7 +150,7 @@
       swiper
     },
     mounted() {
-      // 笨方法，设置N个盒子的scroll top
+      // 设置N个盒子的scroll top
 
        this.navListActiveIndex = DB.getItemOnce('home-index-nowIndex').toNumber() || 0
 
@@ -159,16 +158,20 @@
         this.$refs.view01.scrollTop = DB.getItemOnce('home-index-view01').toNumber() || 0
       }, 10)
       // 获取商品列表
-      axios.get('./static/server/2000.json')
+      axios.get(this.getTitle.title+'/showAllGoods')
           .then(response=> {
-           this.shoplist= response.data.data;
-           this.loaded = true;
+          if(response.data.status==1){
+            this.shoplist= response.data.data;
+            this.loaded = true;
             setTimeout(()=>{
-              this.hide = false
+              this.hide = false;
             }, 1000)
+          }else{
+            console.log(response.data.message);
+          }
           })
           .catch(error=> {
-            this.$router.replace('/error/404')
+            this.$router.replace('/error/404');
           });
     },
     methods: {
@@ -176,17 +179,27 @@
       changeType(type){
         this.loaded = false;
         this.hide = true;
-        axios.get('./static/server/2001.json',{
+        axios.get(this.getTitle.title+'/showAllGoodsByType',{
           params: {
-            type
+            type:type
           }
         })
           .then(response=> {
-           this.shoplist= response.data.data;
-           this.loaded = true;
-            setTimeout(()=>{
-              this.hide = false
-            }, 1000)
+            if(response.data.status==1){
+              this.shoplist= response.data.data;
+              this.loaded = true;
+              setTimeout(()=>{
+                this.hide = false
+              }, 1000)
+            }else{
+              this.loaded = true;
+              this.shoplist=[];
+              setTimeout(()=>{
+                this.hide = false
+              }, 1000)
+              console.log(response.data.message);
+            }
+           
           })
           .catch(error=> {
             this.$router.replace('/error/404')

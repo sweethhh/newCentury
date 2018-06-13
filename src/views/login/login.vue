@@ -35,6 +35,7 @@
   import headerBack from '../../components/header-back'
   import axios from 'axios'
   import VueDB from '../../util/vue-db/vue-db'
+  import qs from 'qs';
 
 
   let DB = new VueDB();
@@ -62,25 +63,32 @@
         },1000);
       },
       login(){
+        var _this=this;
         if(this.userName!=""&&this.userName!=null&&this.password!=""&&this.password!=null){
-          axios.post('/user', {
+          axios.post(this.getTitle.title+'/login', qs.stringify({
             userName: this.userName,
             password: this.password
-          })
+          }))
           .then(function (response) {
-            DB.setItem('userName',this.userName);
-            this.alertMsg(response);
-            console.log(response);
-            // 跳转
-            $router.openPage('/mine');
+            if(response.data.status==1){
+                console.log(response);
+                DB.setItem("userNameId",response.data.data.id);
+                // 跳转
+                _this.$router.push({name: 'mine'});
+                // this.$router.open('/mine');
+            }else{
+              _this.alertMsg(response.data.message);
+              console.log(response.data.message);
+              
+            }
+           
           })
           .catch(function (error) {
-            this.alertMsg(error);
             console.log(error);
           });
         }else{
           // 你还没有填写用户名密码
-          this.alertMsg("你还没有填写用户名密码");
+          _this.alertMsg("你还没有填写用户名密码");
         }
       }
     },

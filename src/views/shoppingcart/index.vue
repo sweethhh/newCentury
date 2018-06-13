@@ -21,7 +21,7 @@
           </div>
           <div class="function-box fr">
             <p class="title">{{ target.title }}</p>
-            <p class="money">售价：{{ target.money }}元</p>
+            <p class="money">售价：{{ target.price }}元</p>
             <div class="button-group">
               <div class="function-button">
                 <span class="btn jia iconfont icon-jia" @click="jia(target)"></span>
@@ -65,12 +65,13 @@
   </transition>
   </div>
 </template>
-
-<script type="text/ecmascript-6">
+<!-- type="text/ecmascript-6" -->
+<script >
   import headerBack from '../../components/header-back'
   import ShopCarTool from '../../util/shop-car-tool/index'
   import VueDB from '../../util/vue-db/vue-db-long'
   import axios from 'axios'
+  import qs from 'qs';
 
 
   let DB = new VueDB();
@@ -83,15 +84,16 @@
     },
     data() {
       return {
-        shopCarList: {},
+        shopCarList: [],
         checkOutShow : false,
         address:"暂无",
-        userName:""
+        addressId:"",
+        userNameId:""
       }
     },
     mounted() {
       // 获取当前用户名
-      this.userName=DB.getItem('userName');
+      this.userNameId=sessionStorage.getItem('userNameId');
       this.shopCar = new ShopCarTool(this.$store)
       this.shopCarList = this.shopCar.getAll()
 
@@ -108,7 +110,7 @@
       getAllMoney(){
         var n = 0;
         for(var i in this.shopCarList){
-          n += this.shopCarList[i].money * this.shopCarList[i].length
+          n += this.shopCarList[i].price * this.shopCarList[i].length
         }
         return n
       }
@@ -126,34 +128,42 @@
       },
       checkOut(){
         // 获取默认收货地址
-        axios.get('/user', {
-            params: {
-              userName: this.userName
-            }
-        })
-        .then(response=> {
-         this.address=response.data.data.address;
-        })
-        .catch(error=> {
-          this.$router.replace('/error/404')
-        });
+
         this.checkOutShow=true;
      },
       closePay(){
         this.checkOutShow=false;
       },
       pay(){
+        var _this=this;
+        var carListArr=[];
+        for(var key in this.shopCarList){
+            this.shopCarList[key].goodsId=this.shopCarList[key].id;
+            this.shopCarList[key].amount=this.shopCarList[key].length;
+            delete this.shopCarList[key].price;
+            delete this.shopCarList[key].img;
+            delete this.shopCarList[key].link;
+            delete this.shopCarList[key].length;
+            delete this.shopCarList[key].id;
+            carListArr.push(this.shopCarList[key]);
+        }
+        var carListJson=JSON.stringify(carListArr);
         // 发送数据到后台
-        axios.post('/user', {
-          data:this.shopCarList
-        })
+        axios.post(this.getTitle.title+'/addOrder', qs.stringify({
+          jsonString:carListJson,
+          total:this.getAllMoney,
+          id: this.userNameId,
+          address:this.address,
+          addressId:'180610134936966853',
+          payWay:0
+        }))
         .then(function (response) {
+
           console.log(response);
           // 清空购物车
-          this.shopCar.removeAll()
-          this.shopCarList = this.shopCar.getAll()
-          // 关闭支付面板
-          this.closePay();
+          _this.shopCar.removeAll();
+          _this.shopCarList = _this.shopCar.getAll();
+          _this.$router.replace('/mine');
         })
         .catch(function (error) {
           console.log(error);

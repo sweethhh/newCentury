@@ -83,7 +83,7 @@ export default new Router({
       }
     },
     {
-      path: '/activity',
+      path: '/activity/:id',
       name: 'activity',
       component(resolve){
         require(['@/views/classification/activity.vue'], resolve)

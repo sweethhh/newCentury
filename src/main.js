@@ -51,7 +51,11 @@ router.afterEach((to, from, next)=>{
 
 })
 
-
+Vue.prototype.getTitle = {  
+    title:'http://18146ym266.iask.in:14832/',  
+    isBack: true,  
+    isAdd:  false,  
+};  
 
 Vue.config.productionTip = false
 
